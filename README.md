@@ -42,6 +42,19 @@
 
 > PopClip 从 `.popclipextz` 安装成功后会删除该 zip 文件，这是它的官方行为，不是文件损坏。
 
+### 两种安装方式，该用哪个？
+
+| | 直接双击 `.popclipextz` | 双击 `安装到PopClip.command` |
+|---|---|---|
+| 它是什么 | 扩展的压缩包，PopClip 官方安装格式 | 一个几行的 shell 脚本，**不是扩展本身** |
+| 做了什么 | PopClip 直接读取并安装 | 把源目录复制到 `/tmp` → 打包 → 调用 PopClip 打开 |
+| 安装之后 | **这个 zip 会被 PopClip 删除** | 源目录与本地文件不受影响，被删的只是临时副本 |
+| 适合场景 | 从 Releases 下载后的一次性安装 | 已 clone 本仓库，或需要反复安装 / 更新 |
+
+`安装到PopClip.command` 只做三件事：复制 `SiYuan Clipper.popclipext/` 到临时目录、打包成 `.popclipextz`、交给 PopClip；顺带刷新 `dist/` 里的分发副本。它**不修改插件内容、不联网、不写入 PopClip 的数据库**，两种方式装出来的扩展完全相同。
+
+一句话：**从 Release 下载就双击 zip；本地已有仓库就双击 `.command`。**
+
 ## 文档
 
 - [插件完整说明](<SiYuan Clipper.popclipext/Readme.md>)：15 项配置、四种定位方式、场景配置格式、反馈与排错。
@@ -54,7 +67,7 @@ SiYuan Clipper.popclipext/    扩展本体
 ├── Config.yaml              扩展定义与 15 项设置
 ├── send.py                  主逻辑（Python 3，无第三方依赖）
 └── Readme.md                完整说明
-安装到PopClip.command         一键安装脚本
+安装到PopClip.command         一键安装脚本（生成临时安装包并交给 PopClip，非扩展本体）
 docs/                        功能介绍与 FAQ
 ```
 

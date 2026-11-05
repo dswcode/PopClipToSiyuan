@@ -31,7 +31,7 @@
 
 ## 安装
 
-1. 从 [Releases](../../releases) 下载 `SiYuan Clipper.popclipextz` 双击安装；**或**双击本仓库的 `安装到PopClip.command`（推荐，脚本用临时副本安装，不会删掉源文件）。
+1. 从 [Releases](../../releases) 下载 `SiYuanClipper.popclipextz` 双击安装（GitHub 会把附件名中的空格替换成点，因此发布时使用无空格名，与本地的 `SiYuan Clipper.popclipextz` 是同一个包）；**或**双击本仓库的 `安装到PopClip.command`（推荐，脚本用临时副本安装，不会删掉源文件）。
 2. 首次会弹「未签名扩展」警告，点确认即可。想永久免弹，在终端执行一次后重启 PopClip：
 
    ```bash

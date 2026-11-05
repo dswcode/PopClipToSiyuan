@@ -208,4 +208,4 @@ SiYuan-Kernel block append --parent <文档或块ID> --file - -w <工作空间> 
 - [zotero-siyuan](https://github.com/loonghfut/zotero-siyuan) —— 「CLI 优先、HTTP 兜底」的工程思路与 workspace 显式传递的处理。
 - [思源笔记](https://github.com/siyuan-note/siyuan) 内置 CLI 与内核 API · [PopClip 扩展开发文档](https://www.popclip.app/dev/)
 
-插件文件：`SiYuan Clipper.popclipextz`（约 13 KB），发帖时请作为附件上传。
+插件下载：[Releases 页面](https://github.com/dswcode/PopClipToSiyuan/releases) 提供 `SiYuanClipper.popclipextz`（约 13 KB）；论坛发帖直接贴 Release 链接即可，读者始终能拿到最新版。

@@ -1,0 +1,132 @@
+identifier: com.shawn.popclip.siyuan-clipper
+name: 存入思源
+icon: symbol:square.and.arrow.down
+description: 把选中文字以「摘录 + 来源」的嵌套列表追加到思源指定文档，走内置 CLI，无需 API Token
+requirements: [text]
+shellScriptFile: send.py
+interpreter: /usr/bin/python3
+shellMode: none
+
+options:
+  - identifier: heading_connection
+    type: heading
+    label: 连接
+
+  - identifier: clipath
+    type: string
+    label: CLI 路径
+    description: 留空自动查找 /Applications/SiYuan.app/Contents/Resources/kernel/SiYuan-Kernel
+    defaultValue: ""
+
+  - identifier: workspace
+    type: string
+    label: Workspace 路径
+    description: 留空自动执行 workspace info 探测。思源 CLI 默认会猜错到 ~/SiYuan，插件会显式传 -w
+    defaultValue: ""
+
+  - identifier: timeout
+    type: string
+    label: 命令超时（秒）
+    description: 单次思源命令的最长等待时间
+    defaultValue: "10"
+
+  - identifier: heading_target
+    type: heading
+    label: 默认目标
+
+  - identifier: docid
+    type: string
+    label: 默认文档 ID
+    description: 思源文档块 ID，形如 20210808180117-abc1234。在思源里右键文档 → 复制 → 复制块 ID
+    defaultValue: ""
+
+  - identifier: targetmode
+    type: multiple
+    label: 默认定位方式
+    description: 不按修饰键时使用的目标定位方式
+    values: [id, path, daily]
+    valueLabels: [文档 ID, 笔记本+文档标题, 今日日记]
+    defaultValue: id
+
+  - identifier: notebook
+    type: string
+    label: 笔记本名称或 ID
+    description: 用于「今日日记」与按标题定位。留空则使用第一个未关闭、未加密的笔记本
+    defaultValue: ""
+
+  - identifier: docpath
+    type: string
+    label: 文档标题或路径
+    description: 用于按标题定位，建议写全「笔记本/文档标题」避免同名歧义
+    defaultValue: ""
+
+  - identifier: scenes
+    type: string
+    multiline: true
+    label: 场景配置（每行一个）
+    description: |
+      格式：修饰键 | 名称 | 目标
+      修饰键：⌥ / ⌘ / ⌃ / ⇧（也可写 option / command / control / shift）
+      目标：id:文档ID ／ path:笔记本/文档标题 ／ daily:笔记本名
+      示例：
+      ⌥ | 读书摘录 | id:20210808180117-abc1234
+      ⌘ | 灵感收集 | path:我的笔记本/灵感收集
+      ⌃ | 今日日记 | daily:我的笔记本
+      最多 3 行，# 开头为注释。不按修饰键时使用上面的「默认目标」
+    defaultValue: ""
+
+  - identifier: heading_content
+    type: heading
+    label: 内容与反馈
+
+  - identifier: includesource
+    type: boolean
+    label: 保留来源信息
+    description: 在摘录列表项下增加一个子列表项，写入时间、网页标题与链接、来源应用名
+    defaultValue: true
+
+  - identifier: timeformat
+    type: multiple
+    label: 时间格式
+    description: 来源子项里的时间戳格式
+    values: [hm, full, none]
+    valueLabels: ["15:32", "2026-11-04 15:32", 不显示时间]
+    defaultValue: hm
+
+  - identifier: pdfapps
+    type: string
+    multiline: true
+    label: PDF 应用白名单
+    description: |
+      每行一个关键词（App 名或 Bundle ID 片段）；命中后，该应用里选中的多行文字一律合并成连续一句，不区分 PDF 与网页。
+      已内置常见 PDF 阅读器关键词，这里填的是追加项；# 开头为注释。
+      网址识别有前提：只有 PopClip 能提供网页 URL 且其中含 .pdf 时才生效，Edge 等浏览器可能拿不到 URL。
+      浏览器内置 PDF 查看器请依靠下方「识别 PDF 式断行」。
+    defaultValue: |
+      # 例如：Skim、福昕阅读器、MyPDFApp
+
+  - identifier: detectpdfbreaks
+    type: boolean
+    label: 识别 PDF 式断行
+    description: |
+      选中文字呈现典型 PDF 硬换行特征（多行、每行较短、句子被从中间截断、无空行与列表）时，即使认不出应用或网址也自动合并成一句。
+      用于覆盖 Edge 等浏览器内置 PDF 查看器；若网页诗歌、窄栏排版被误合并，可关掉此项。
+    defaultValue: true
+
+  - identifier: alwaysjoin
+    type: boolean
+    label: 总是合并换行
+    description: 开启后不管来自哪个 App，多行文字都合并成连续一句；用于 PDF 来源漏判时兜底
+    defaultValue: false
+
+  - identifier: successhint
+    type: boolean
+    label: 成功时发送通知
+    description: PopClip 本身会显示对勾；开启后额外发一条系统通知，注明写入了哪个目标
+    defaultValue: false
+
+  - identifier: settingsonerror
+    type: boolean
+    label: 配置错误时弹出设置
+    description: 缺少 CLI／workspace／文档 ID 等配置问题时，自动打开扩展设置面板
+    defaultValue: true
